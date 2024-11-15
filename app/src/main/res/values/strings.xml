@@ -1,10 +1,42 @@
 <resources>
     <string name="app_name">Find Me Here</string>
-    <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+<!--    <string name="lost_and_found">Find me here</string>-->
+    <string name="todo">TODO</string>
     <string name="forgot_your_login_details">Forgot your login details?</string>
-    <string name="or">OR</string>
+    <string name="get_help_logging_in">Get help logging in</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
+    <string name="register_your_account">Register Your Account</string>
+    <string name="add_your_profile_picture">Add Your Profile Picture</string>
+    <string name="enter_username">Enter Username:</string>
+    <string name="enter_password">Enter Password:</string>
+    <string name="login">Login</string>
+    <string name="re_enter_password">Re-enter Password:</string>
+    <string name="enter_your_email">Enter your Email:</string>
+    <string name="phone_no">Phone no.:</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="or">OR</string>
+    <string name="add_profile_picture">Add profile picture</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="lost">Lost</string>
+    <string name="search">Search</string>
+    <string name="view">View</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_your_post">Add Your Post</string>
+    <string name="description">Description</string>
+    <string name="note_if_the_item_is_lost_then_it_is_optional_to_add_photo_of_item">Note: If the item is lost then it is optional to add photo of item</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="location">Location</string>
+    <string name="post">Post</string>
+    <string name="found">Found</string>
+    <string name="enter_messege">\tEnter Messege</string>
+    <string name="profile">Profile</string>
+    <string name="messeges">Messeges</string>
+    <string name="username">Username</string>
+    <string name="lost_post">Lost Posts</string>
+    <string name="found_posts">Found Posts</string>
+    <string name="total_posts">Total Posts</string>
 </resources>

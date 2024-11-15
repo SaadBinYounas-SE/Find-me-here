@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#2C2C2C</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="craft">#806D61</color>
+    <color name="concrete">#C5BAAA</color>
+    <color name="brown">#3E3935</color>
+<!--    <color name="purple">#8a19d6</color>-->
     <color name="purple">#03314B</color>
+    <color name="peach">#FF7F50</color>
+    <color name="alpha_20peach">#33FF7F50</color>
+    <color name="alpha_20purple">#3303314B</color>
+    <color name="alpha_peach">#80FF7F50</color>
+    <color name="alpha_purple">#8003314B</color>
+    <color name="gold">#CCAE10</color>
+    <color name="green">#008000</color>
+    <color name="unselected_tab_color">#FFFFFFFF</color>
+    <color name="selected_tab_color">#FF7F50</color> <!-- Define the color for selected tab -->
+
 </resources>
