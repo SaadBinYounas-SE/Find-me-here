@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Find Me Here</string>
-<!--    <string name="lost_and_found">Find me here</string>-->
+    <!--    <string name="lost_and_found">Find me here</string>-->
     <string name="todo">TODO</string>
     <string name="forgot_your_login_details">Forgot your login details?</string>
     <string name="get_help_logging_in">Get help logging in</string>
@@ -39,4 +39,5 @@
     <string name="lost_post">Lost Posts</string>
     <string name="found_posts">Found Posts</string>
     <string name="total_posts">Total Posts</string>
+    <string name="Find">Find</string>
 </resources>
