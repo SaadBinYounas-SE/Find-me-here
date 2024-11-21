@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bggg"
+        android:alpha="0.6"
+        android:contentDescription="@string/todo" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <View
+                android:layout_width="3dp"
+                android:layout_height="250dp"
+                android:id="@+id/anim_L"
+                android:layout_marginLeft="100dp"
+                android:background="@color/purple"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="300dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Find"
+                android:textStyle="bold"
+                android:layout_marginTop="110dp"
+                android:layout_gravity="center"
+                android:textSize="45sp"
+                android:textColor="@color/purple"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Me"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="-10dp"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:textColor="@color/purple"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="-100dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="         Here"
+                android:layout_marginLeft="100dp"
+                android:textSize="45sp"
+                android:textStyle="bold"
+                android:textColor="@color/purple"
+                android:layout_marginStart="100dp" />
+            <View
+                android:layout_width="4dp"
+                android:layout_height="250dp"
+                android:id="@+id/anim_N"
+                android:background="@color/purple"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="-250dp"
+            android:id="@+id/anim_underline1"
+            android:background="@color/purple"/>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginLeft="160dp"
+            android:id="@+id/anim_underline2"
+            android:background="@color/purple"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
