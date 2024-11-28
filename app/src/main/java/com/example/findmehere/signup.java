@@ -187,7 +187,7 @@ public class signup extends AppCompatActivity {
 
 
                     }else{
-                        Toast.makeText(signup.this,"Registeration Failed",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(signup.this,"Registration Failed",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -12,24 +12,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FindMeHere"
         tools:targetApi="31">
+
+        <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name=".signup"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Signup Activity -->
+        <activity
+            android:name=".signup"
+            android:exported="false" />
+
+        <!-- Main Activity (no MAIN or LAUNCHER intent-filter) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <!-- Login Activity -->
         <activity
             android:name=".loginActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>
