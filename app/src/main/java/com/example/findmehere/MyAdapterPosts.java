@@ -1,11 +1,17 @@
 package com.example.findmehere;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -55,18 +61,13 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
         holder.tvStatus.setText(Posts.get(position).getStatus());
         holder.tvNameProfile.setText(Posts.get(position).getPostedBy());
         holder.tvPostTime.setText(Posts.get(position).getPostTime());
-//
-//        // Load profile picture
-//        Glide.with(holder.itemView.getContext())
-//                .load(Posts.get(position).getPostedByPicUrl())
-//                .placeholder(R.drawable.placeholder_image)
-//                .into(holder.ivProfilePost);
-//
-//        // Load item picture
-//        Glide.with(holder.itemView.getContext())
-//                .load(Posts.get(position).getItemPostImageUrl())
-//                .placeholder(R.drawable.placeholder_image)
-//                .into(holder.ivImage);
+
+        // Load profile picture
+        Glide.with(holder.itemView.getContext())
+                .load(Posts.get(position).getPostedByPicUrl())
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.ivProfilePost);
+
 
     }
 
@@ -83,7 +84,7 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView ivImage, ivProfilePost;
+        ImageView ivProfilePost;
         TextView tvItemName,tvNameProfile, tvStatus,tvLocation,tvPostTime;
         Button btnView;
         public ViewHolder(@NonNull View itemView) {
@@ -111,7 +112,6 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
             tvStatus=itemView.findViewById(R.id.tvStatus);
             btnView=itemView.findViewById(R.id.btnView);
             tvPostTime=itemView.findViewById(R.id.tvPostTime);
-            ivImage=itemView.findViewById(R.id.ivImage);
             ivProfilePost=itemView.findViewById(R.id.ivProfilePost);
 
         }
