@@ -14,8 +14,9 @@
         >
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="185dp"
             android:src="@drawable/findmeherelogo"
+
             android:layout_marginBottom="20dp"
             android:layout_marginTop="60dp"
             />
