@@ -90,8 +90,7 @@ public class signup extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("images").child("my_image.jpg");
     }
-    protected void registerUser()
-    {
+    protected void registerUser() {
         progressBar.setVisibility(View.VISIBLE);
 
         btnSign.setEnabled(false);
@@ -102,100 +101,133 @@ public class signup extends AppCompatActivity {
         etRePassword.setEnabled(false);
         etPhone.setEnabled(false);
 
-        String fname=etFirstName.getText().toString().trim();
-        String lname=etLastName.getText().toString().trim();
+        String fname = etFirstName.getText().toString().trim();
+        String lname = etLastName.getText().toString().trim();
+        String fullName = fname + " " + lname;
 
-        String fullName= fname+" "+lname;
+        String phone = etPhone.getText().toString();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString();
+        String repassword = etRePassword.getText().toString();
 
-        String phone=etPhone.getText().toString();
-        String email=etEmail.getText().toString().trim();
-        String password=etPassword.getText().toString();
-        String repassword=etRePassword.getText().toString();
-
-        if(fname.isEmpty()||lname.isEmpty()||phone.isEmpty()||email.isEmpty()||password.isEmpty()||repassword.isEmpty())
-        {
-            Toast.makeText(this,"All Fields should be filled",Toast.LENGTH_SHORT).show();
+        if (fname.isEmpty() || lname.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || repassword.isEmpty()) {
+            Toast.makeText(this, "All Fields should be filled", Toast.LENGTH_SHORT).show();
+            resetProgress();
+            return;
         }
-        else if(!password.equals(repassword))
-        {
-            Toast.makeText(this,"Enter same passowrds in both fields",Toast.LENGTH_SHORT).show();
-        }
-        else if(!email.contains("@"))
-        {
-            Toast.makeText(this,"Invalid Email",Toast.LENGTH_SHORT).show();
-        }
-        else if (!isValidPhoneNumber(phone)) {
-            Toast.makeText(this,"Invalid Phone",Toast.LENGTH_SHORT).show();
-        }
-        else if(password.length() < 6)
-        {
-            Toast.makeText(this,"Password should be atleast 6 characters long",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(signup.this,new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
 
+        if (!password.equals(repassword)) {
+            Toast.makeText(this, "Passwords must match", Toast.LENGTH_SHORT).show();
+            resetProgress();
+            return;
+        }
 
-                    if(task.isSuccessful()){
-                        Toast.makeText(signup.this,"User Registered Successfully",Toast.LENGTH_SHORT).show();
+        if (!email.contains("@")) {
+            Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            resetProgress();
+            return;
+        }
 
+        if (!isValidPhoneNumber(phone)) {
+            Toast.makeText(this, "Invalid Phone", Toast.LENGTH_SHORT).show();
+            resetProgress();
+            return;
+        }
 
-                        if (imageUri != null) {
-                            // Upload image to Firebase Storage
-                            StorageReference fileReference = storageRef.child("profile_pictures/" + System.currentTimeMillis()
-                                    + "." + getFileExtension(imageUri));
-                            fileReference.putFile(imageUri)
-                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                                    {
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password should be at least 6 characters long", Toast.LENGTH_SHORT).show();
+            resetProgress();
+            return;
+        }
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+                            saveUserData(userId, fullName, email, phone, password);
+                        } else {
+                            Toast.makeText(signup.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            resetProgress();
+                        }
+                    }
+                });
+    }
+
+    private void saveUserData(String userId, String fullName, String email, String phone, String password) {
+        if (imageUri != null) {
+            StorageReference fileReference = storageRef.child("profile_pictures/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            fileReference.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            taskSnapshot.getStorage().getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                            Task<Uri> downloadUriTask = taskSnapshot.getStorage().getDownloadUrl();
-                                            downloadUriTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                @Override
-                                                public void onSuccess(Uri downloadUri) {
-                                                    String profileUrl = downloadUri.toString();
-                                                    String userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
-                                                    User userData = new User(userId, fullName, email, phone, password, profileUrl);
-                                                    signinDb.child(userId).setValue(userData);
-
-                                                    Intent intent =new Intent(signup.this,loginActivity.class);
-                                                    FirebaseAuth.getInstance().signOut();
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            });
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Handle unsuccessful image upload
+                                        public void onSuccess(Uri downloadUri) {
+                                            String profileUrl = downloadUri.toString();
+                                            User userData = new User(userId, fullName, email, phone, password, profileUrl);
+                                            signinDb.child(userId).setValue(userData)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(signup.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(signup.this, loginActivity.class);
+                                                                FirebaseAuth.getInstance().signOut();
+                                                                startActivity(intent);
+                                                                finish();
+                                                            } else {
+                                                                Toast.makeText(signup.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                            resetProgress();
+                                                        }
+                                                    });
                                         }
                                     });
                         }
-                        progressBar.setVisibility(View.GONE);
-
-                        btnSign.setEnabled(true);
-                        etFirstName.setEnabled(true);
-                        etLastName.setEnabled(true);
-                        etEmail.setEnabled(true);
-                        etPassword.setEnabled(true);
-                        etRePassword.setEnabled(true);
-                        etPhone.setEnabled(true);
-
-
-
-                    }else{
-                        Toast.makeText(signup.this,"Registration Failed",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(signup.this, "Image Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            resetProgress();
+                        }
+                    });
+        } else {
+            // Save user data without profile image
+            User userData = new User(userId, fullName, email, phone, password, null);
+            signinDb.child(userId).setValue(userData)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(signup.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(signup.this, loginActivity.class);
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(signup.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                            }
+                            resetProgress();
+                        }
+                    });
         }
-
-
-
     }
+
+    private void resetProgress() {
+        progressBar.setVisibility(View.GONE);
+        btnSign.setEnabled(true);
+        etFirstName.setEnabled(true);
+        etLastName.setEnabled(true);
+        etEmail.setEnabled(true);
+        etPassword.setEnabled(true);
+        etRePassword.setEnabled(true);
+        etPhone.setEnabled(true);
+    }
+
     void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");

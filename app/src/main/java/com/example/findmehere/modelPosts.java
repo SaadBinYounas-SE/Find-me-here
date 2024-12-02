@@ -12,19 +12,25 @@ public class modelPosts {
     private String status;
     private String location;
     private String postTime;
-    private String itemPicUrl;
-    private String PostedByPicUrl;
     private String userId;
-    public modelPosts(){}
-    public modelPosts(String itemName,String postedBy,String description,String messege,String status,String location,String PostedByPicUrl,String userId,String itemPicUrl) {
+    private String PostedByPicUrl;
+
+    public String getPostedByPicUrl() {
+        return PostedByPicUrl;
+    }
+
+    public void setPostedByPicUrl(String postedByPicUrl) {
+        PostedByPicUrl = postedByPicUrl;
+    }
+
+    public modelPosts(String itemName, String postedBy, String description, String messege, String status, String location, String userId) {
         this.itemName=itemName;
         this.postedBy=postedBy;
         this.description=description;
         this.messege=messege;
         this.status=status;
         this.location=location;
-        this.PostedByPicUrl=PostedByPicUrl;
-        this.itemPicUrl=itemPicUrl;
+
         this.userId=userId;
 
         LocalDateTime now = LocalDateTime.now();
@@ -95,19 +101,5 @@ public class modelPosts {
         this.messege = messege;
     }
 
-    public void setItemPostImageUrl(String imageUrl) {
-        itemPicUrl=imageUrl;
-    }
 
-    public String getItemPostImageUrl() {
-        return itemPicUrl;
-    }
-
-    public void setPostedByPicUrl(String profileImageUrl) {
-        PostedByPicUrl=profileImageUrl;
-    }
-
-    public String getPostedByPicUrl() {
-        return PostedByPicUrl;
-    }
 }

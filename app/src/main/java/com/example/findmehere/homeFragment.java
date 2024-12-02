@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,7 +72,6 @@ public class homeFragment extends Fragment {
                 String location = post.getLocation();
                 String status=post.getStatus();
                 String messege = post.getMessege();
-                String itemPostImageUrl = post.getItemPostImageUrl();
 
                 Log.d("home fragment ","item name : "+itemName);
 

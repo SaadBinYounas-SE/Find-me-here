@@ -2,12 +2,8 @@ package com.example.findmehere;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
         tlNav.setupWithViewPager(viewPager);
         MyAdaptorViewPage vpAdaptor=new MyAdaptorViewPage(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-//
-//        vpAdaptor.addFragment(new homeFragment(),"Home");
-//        vpAdaptor.addFragment(new newPostFragment(),"Post");
+
+        vpAdaptor.addFragment(new homeFragment(),"Home");
+        vpAdaptor.addFragment(new newPostFragment(),"Post");
 //        vpAdaptor.addFragment(new MessegesContact(),"Message");
 //        vpAdaptor.addFragment(new Profile1_fragment(),"Profile");
 
