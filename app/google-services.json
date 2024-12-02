@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "92470906784",
+    "project_id": "find-me-here-fbf6a",
+    "storage_bucket": "find-me-here-fbf6a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92470906784:android:ac337a17f2911f299c5ec5",
+        "android_client_info": {
+          "package_name": "com.example.findmehere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8RX6K77y5V-lvUWjU5BL6oEWAO2zQ_Tk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
