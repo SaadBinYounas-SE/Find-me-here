@@ -1,23 +1,25 @@
 package com.example.findmehere;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.SearchView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link homeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
 
 public class homeFragment extends Fragment {
 
@@ -100,34 +102,42 @@ public class homeFragment extends Fragment {
         // Update the RecyclerView adapter with the filtered list
         myAdapter.setFilteredPosts(filteredList);
     }
+
+    //jab home load hua to porana post aa gyi
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDataFromDb();
+    }
+
     protected void getDataFromDb()
     {
-//        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
-//        postsRef.addValueEventListener(new ValueEventListener() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                // Clear the existing list before adding new data
-//                Posts.clear();
-//
-//                // Iterate through the dataSnapshot to retrieve each post
-//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                    // Convert the dataSnapshot to a model object and add it to the list
-//                    modelPosts post = postSnapshot.getValue(modelPosts.class);
-//
-//                    Posts.add(post);
-//                }
-//
-//                // Notify the adapter of the data change
-//                myAdapter.notifyDataSetChanged();
-//            }
+        postsRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Clear the existing list before adding new data
+                Posts.clear();
 
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // Handle errors
-//            }
-//        });
+                // Iterate through the dataSnapshot to retrieve each post
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    // Convert the dataSnapshot to a model object and add it to the list
+                    modelPosts post = postSnapshot.getValue(modelPosts.class);
+
+                    Posts.add(post);
+                }
+
+                // Notify the adapter of the data change
+                myAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle errors
+            }
+        });
     }
 
 }

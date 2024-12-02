@@ -15,6 +15,8 @@ public class modelPosts {
     private String userId;
     private String PostedByPicUrl;
 
+    public modelPosts(){}
+
     public String getPostedByPicUrl() {
         return PostedByPicUrl;
     }
