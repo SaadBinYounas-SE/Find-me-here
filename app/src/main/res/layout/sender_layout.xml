@@ -34,7 +34,7 @@
         android:layout_toStartOf="@id/cardView"
         android:background="@drawable/sender_shape"
         android:padding="9.10dp"
-        android:text="i am fine!!"
+        android:text="@string/i_am_fine"
         android:textColor="@color/black"
         android:textStyle="bold" />
 

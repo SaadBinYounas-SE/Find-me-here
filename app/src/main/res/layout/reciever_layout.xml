@@ -40,7 +40,7 @@
         android:layout_toRightOf="@+id/IvcardView"
         android:background="@drawable/reciever_shape"
         android:padding="9.1dp"
-        android:text="hi how are you?"
+        android:text="@string/hi_how_are_you"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
