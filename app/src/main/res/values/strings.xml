@@ -32,9 +32,9 @@
     <string name="location">Location</string>
     <string name="post">Post</string>
     <string name="found">Found</string>
-    <string name="enter_messege">\tEnter Messege</string>
+    <string name="enter_messege">\tEnter Message</string>
     <string name="profile">Profile</string>
-    <string name="messeges">Messeges</string>
+    <string name="messeges">Messages</string>
     <string name="username">Username</string>
     <string name="lost_post">Lost Posts</string>
     <string name="found_posts">Found Posts</string>
