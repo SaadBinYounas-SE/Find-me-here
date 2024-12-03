@@ -32,12 +32,20 @@
     <string name="location">Location</string>
     <string name="post">Post</string>
     <string name="found">Found</string>
-    <string name="enter_messege">\tEnter Messege</string>
+    <string name="enter_messege">\tEnter Message</string>
     <string name="profile">Profile</string>
-    <string name="messeges">Messeges</string>
+    <string name="messeges">Messages</string>
     <string name="username">Username</string>
     <string name="lost_post">Lost Posts</string>
     <string name="found_posts">Found Posts</string>
     <string name="total_posts">Total Posts</string>
     <string name="Find">Find</string>
+    <string name="i_am_fine">i am fine!!</string>
+    <string name="full_name">Full name</string>
+    <string name="_1">1</string>
+    <string name="hi_how_are_you">hi how are you?</string>
+    <string name="_8">8</string>
+    <string name="_7">7</string>
+    <string name="_15">15</string>
+    <string name="item_name">Item Name</string>
 </resources>
