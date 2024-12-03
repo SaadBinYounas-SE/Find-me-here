@@ -12,7 +12,9 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass"
+        tools:layout_editor_absoluteX="-54dp"
+        tools:layout_editor_absoluteY="-158dp" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tlNav"
@@ -27,25 +29,25 @@
             android:text="Home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_account"
+            android:icon="@drawable/home"
             />
         <com.google.android.material.tabs.TabItem
             android:text="Post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_account"
+            android:icon="@drawable/post"
             />
         <com.google.android.material.tabs.TabItem
             android:text="Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_account"
+            android:icon="@drawable/search"
             />
         <com.google.android.material.tabs.TabItem
             android:text="chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_account"
+            android:icon="@drawable/message"
             />
         <com.google.android.material.tabs.TabItem
             android:text="Profile"

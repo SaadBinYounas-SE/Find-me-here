@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="_45sdp">45dp</dimen>
+    <dimen name="_5sdp">5dp</dimen>
+    <dimen name="_15sdp">15dp</dimen>
+    <dimen name="_25sdp">25dp</dimen>
+    <dimen name="_10sdp">10dp</dimen>
+    <dimen name="_50sdp">50dp</dimen>
+    <dimen name="_1sdp">1dp</dimen>
+    <dimen name="_7sdp">7dp</dimen>
+    <dimen name="_21sdp">21dp</dimen>
+
+    <dimen name="_18sdp">18dp</dimen>
+    <dimen name="car_ui_padding_5">5dp</dimen>
+</resources>
