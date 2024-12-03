@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        app:cardCornerRadius="65dp"
+        android:layout_width="32.50dp"
+        android:layout_height="32.50dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="13dp">
+
+        <ImageView
+            android:id="@+id/ivSenderImg"
+            android:layout_width="32.50dp"
+            android:layout_height="32.50dp"
+            android:src="@drawable/placeholder_image"
+            />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/tvSenderMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="6.50dp"
+        android:layout_marginTop="6.50dp"
+        android:layout_marginEnd="1.30dp"
+        android:layout_marginBottom="6.50dp"
+        android:layout_toStartOf="@id/cardView"
+        android:background="@drawable/sender_shape"
+        android:padding="9.10dp"
+        android:text="i am fine!!"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
