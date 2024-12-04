@@ -12,4 +12,8 @@
 
     <dimen name="_18sdp">18dp</dimen>
     <dimen name="car_ui_padding_5">5dp</dimen>
+    <dimen name="_70sdp">70dp</dimen>
+    <dimen name="_12sdp">12dp</dimen>
+    <dimen name="_30sdp">30dp</dimen>
+    <dimen name="_16sdp">16dp</dimen>
 </resources>

@@ -106,11 +106,12 @@ public class newPostFragment extends Fragment {
                     if (snapshot.exists()) {
                         String fullName = snapshot.child("fullName").getValue(String.class);
                         String id = snapshot.child("id").getValue(String.class);
+                        String profilePic=snapshot.child("profilePic").getValue(String.class);
 
                         // Save post details to Firebase Realtime Database
                         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("Posts").push();
                         modelPosts newPost = new modelPosts(itemName, fullName, description, messege, status, location, id);
-
+                        newPost.setPostedByPic(profilePic);
                         postsRef.setValue(newPost).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

@@ -3,6 +3,9 @@ package com.example.findmehere;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -39,10 +40,18 @@ public class MessegesContactAdaptor extends RecyclerView.Adapter<MessegesContact
         User users = contactArray.get(position);
         holder.tvContactUsername.setText(users.getFullName());
 
-        Glide.with(activity.getApplicationContext())
-                .load(users.getProfilePicUrl())
-                .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-                .into(holder.ivContactImg);
+        // Load profile picture using Base64 decoding
+        String base64Image = contactArray.get(position).getProfilePic();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            try {
+                byte[] bytes = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                holder.ivContactImg.setImageBitmap(bitmap);
+            } catch (IllegalArgumentException e) {
+                // Handle exception for invalid Base64 strings
+                holder.ivContactImg.setImageResource(R.drawable.placeholder_image);
+            }
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

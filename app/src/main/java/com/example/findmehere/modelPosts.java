@@ -13,16 +13,16 @@ public class modelPosts {
     private String location;
     private String postTime;
     private String userId;
-    private String PostedByPicUrl;
+    private String PostedByPic;
 
     public modelPosts(){}
 
-    public String getPostedByPicUrl() {
-        return PostedByPicUrl;
+    public String getPostedByPic() {
+        return PostedByPic;
     }
 
-    public void setPostedByPicUrl(String postedByPicUrl) {
-        PostedByPicUrl = postedByPicUrl;
+    public void setPostedByPic(String postedByPic) {
+        PostedByPic = postedByPic;
     }
 
     public modelPosts(String itemName, String postedBy, String description, String messege, String status, String location, String userId) {

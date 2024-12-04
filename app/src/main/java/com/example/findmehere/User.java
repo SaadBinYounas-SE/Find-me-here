@@ -6,15 +6,15 @@ public class User {
     String phone;
     String password;
     String id;
-    private String ProfilePicUrl;
+    private String profilePic;
     User(){}
 
-    public String getProfilePicUrl() {
-        return ProfilePicUrl;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setProfilePicUrl(String profilePicUrl) {
-        ProfilePicUrl = profilePicUrl;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 
 
@@ -26,7 +26,7 @@ public class User {
         this.email=email;
         this.phone=phone;
         this.password=password;
-        this.ProfilePicUrl=profilePicUrl;
+        this.profilePic =profilePicUrl;
     }
 
     public String getFullName() {

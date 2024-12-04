@@ -1,6 +1,9 @@
 package com.example.findmehere;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -62,13 +63,20 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
         holder.tvNameProfile.setText(Posts.get(position).getPostedBy());
         holder.tvPostTime.setText(Posts.get(position).getPostTime());
 
-        // Load profile picture
-        Glide.with(holder.itemView.getContext())
-                .load(Posts.get(position).getPostedByPicUrl())
-                .placeholder(R.drawable.placeholder_image)
-                .into(holder.ivProfilePost);
-
-
+        // Load profile picture using Base64 decoding
+        String base64Image = Posts.get(position).getPostedByPic();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            try {
+                byte[] bytes = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                holder.ivProfilePost.setImageBitmap(bitmap);
+            } catch (IllegalArgumentException e) {
+                // Handle exception for invalid Base64 strings
+                holder.ivProfilePost.setImageResource(R.drawable.placeholder_image);
+            }
+        } else {
+            holder.ivProfilePost.setImageResource(R.drawable.placeholder_image);
+        }
     }
 
     @Override
@@ -80,6 +88,7 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
         this.Posts = filteredPosts;
         notifyDataSetChanged(); // Notify RecyclerView of dataset change
     }
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -103,6 +112,8 @@ public class MyAdapterPosts extends RecyclerView.Adapter<MyAdapterPosts.ViewHold
                 }
             });
         }
+
+
         protected void init()
         {
 

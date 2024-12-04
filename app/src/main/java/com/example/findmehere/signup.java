@@ -2,8 +2,11 @@ package com.example.findmehere;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -17,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,8 +27,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class signup extends AppCompatActivity {
@@ -42,6 +45,7 @@ public class signup extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
     ProgressBar progressBar;
+    private String encodedImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class signup extends AppCompatActivity {
     }
     protected void init()
     {
+        encodedImage="";
+
         btnSign=findViewById(R.id.btnSign);
         etFirstName=findViewById(R.id.etFirstName);
         etLastName=findViewById(R.id.etLastName);
@@ -146,7 +152,11 @@ public class signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             String userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
-                            saveUserData(userId, fullName, email, phone, password);
+                            try {
+                                saveUserData(userId, fullName, email, phone, password);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
                             Toast.makeText(signup.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             resetProgress();
@@ -155,49 +165,16 @@ public class signup extends AppCompatActivity {
                 });
     }
 
-    private void saveUserData(String userId, String fullName, String email, String phone, String password) {
+    private void saveUserData(String userId, String fullName, String email, String phone, String password) throws FileNotFoundException {
         if (imageUri != null) {
-            StorageReference fileReference = storageRef.child("profile_pictures/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
-            fileReference.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            taskSnapshot.getStorage().getDownloadUrl()
-                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri downloadUri) {
-                                            String profileUrl = downloadUri.toString();
-                                            User userData = new User(userId, fullName, email, phone, password, profileUrl);
-                                            signinDb.child(userId).setValue(userData)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Toast.makeText(signup.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
-                                                                Intent intent = new Intent(signup.this, loginActivity.class);
-                                                                FirebaseAuth.getInstance().signOut();
-                                                                startActivity(intent);
-                                                                finish();
-                                                            } else {
-                                                                Toast.makeText(signup.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                            resetProgress();
-                                                        }
-                                                    });
-                                        }
-                                    });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(signup.this, "Image Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            resetProgress();
-                        }
-                    });
-        } else {
+
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            ivDp.setImageBitmap(bitmap);
+            this.encodedImage = encodeImage(bitmap);
+        }
             // Save user data without profile image
-            User userData = new User(userId, fullName, email, phone, password, null);
+            User userData = new User(userId, fullName, email, phone, password, this.encodedImage);
             signinDb.child(userId).setValue(userData)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -214,7 +191,7 @@ public class signup extends AppCompatActivity {
                             resetProgress();
                         }
                     });
-        }
+
     }
 
     private void resetProgress() {
@@ -249,6 +226,15 @@ public class signup extends AppCompatActivity {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+    private String encodeImage(Bitmap bitmap) {
+        int width = 150;
+        int height = bitmap.getHeight() * width / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
 }

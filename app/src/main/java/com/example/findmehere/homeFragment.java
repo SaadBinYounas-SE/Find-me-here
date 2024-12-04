@@ -74,6 +74,8 @@ public class homeFragment extends Fragment {
                 String location = post.getLocation();
                 String status=post.getStatus();
                 String messege = post.getMessege();
+                String profilePic=post.getPostedByPic();
+
 
                 Log.d("home fragment ","item name : "+itemName);
 
