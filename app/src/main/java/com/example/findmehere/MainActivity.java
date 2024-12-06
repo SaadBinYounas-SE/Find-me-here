@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         vpAdaptor.addFragment(new homeFragment(),"Home");
         vpAdaptor.addFragment(new newPostFragment(),"Post");
         vpAdaptor.addFragment(new MessegesContact(),"Message");
-//        vpAdaptor.addFragment(new Profile1_fragment(),"Profile");
 
         viewPager.setAdapter(vpAdaptor);
 

@@ -1,8 +1,8 @@
 package com.example.findmehere;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,27 +67,24 @@ public class homeFragment extends Fragment {
         myAdapter = new MyAdapterPosts(Posts, new MyAdapterPosts.OnItemClickListener() {
             @Override
             public void onItemClick(modelPosts post) {
-//                Intent intent=new Intent(getContext(),viewPostDetails.class);
+                Intent intent=new Intent(getContext(),viewPostDetails.class);
                 String userid=post.getUserId();
                 String itemName = post.getItemName();
                 String description = post.getDescription();
                 String location = post.getLocation();
                 String status=post.getStatus();
                 String messege = post.getMessege();
-                String profilePic=post.getPostedByPic();
 
 
-                Log.d("home fragment ","item name : "+itemName);
 
-//                intent.putExtra("userid",userid);
-//                intent.putExtra("itemName",itemName);
-//                intent.putExtra("description",description);
-//                intent.putExtra("status",status);
-//                intent.putExtra("location",location);
-//                intent.putExtra("messege",messege);
-//                intent.putExtra("itemPostImageUrl",itemPostImageUrl);
-//
-//                startActivity(intent);
+                intent.putExtra("userid",userid);
+                intent.putExtra("itemName",itemName);
+                intent.putExtra("description",description);
+                intent.putExtra("status",status);
+                intent.putExtra("location",location);
+                intent.putExtra("messege",messege);
+
+                startActivity(intent);
             }
         });
         rvPosts.setLayoutManager(new LinearLayoutManager(getActivity()));

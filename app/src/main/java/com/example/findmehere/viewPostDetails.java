@@ -1,9 +1,12 @@
 package com.example.findmehere;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class viewPostDetails extends AppCompatActivity {
 
-//    ImageView ivItemPicDetail;
     TextView tvItemNameDetail, tvDescriptionDetail, tvLocationDetail,tvStatusDetail,tvMessegeDetail;
     Button btnMessegeDetail,btnCallDetail;
     @Override
@@ -32,7 +34,7 @@ public class viewPostDetails extends AppCompatActivity {
         String location = getIntent().getStringExtra("location");
         String status=getIntent().getStringExtra("status");
         String messege = getIntent().getStringExtra("messege");
-        String itemPostImageUrl = getIntent().getStringExtra("itemPostImageUrl");
+
 
         init();
 
@@ -42,14 +44,9 @@ public class viewPostDetails extends AppCompatActivity {
         tvMessegeDetail.setText(messege);
         tvStatusDetail.setText(status);
 
-//        Glide.with(getApplicationContext())
-//                .load(itemPostImageUrl)
-//                .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-//                .into(ivItemPicDetail);
 
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("User").child(userId);
-
 
 
         btnMessegeDetail.setOnClickListener(new View.OnClickListener() {
@@ -77,10 +74,29 @@ public class viewPostDetails extends AppCompatActivity {
             }
         });
 
+        btnCallDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userRef.child("phone").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        String phoneNumber = task.getResult().getValue(String.class);
+                        if (phoneNumber != null) {
+                            // Start the call intent
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                            callIntent.setData(Uri.parse("tel:" + phoneNumber));
+                            startActivity(callIntent);
+                        }
+                    } else {
+                        // Handle the case where the phone number is not found
+                        Toast.makeText(viewPostDetails.this, "Phone number not found", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
     void init(){
 
-//        ivItemPicDetail=findViewById(R.id.ivItemPicDetails);
         tvItemNameDetail=findViewById(R.id.tvItemNameDetails);
         tvDescriptionDetail=findViewById(R.id.tvDescripitonDetail);
         tvLocationDetail=findViewById(R.id.tvLocationDetail);
