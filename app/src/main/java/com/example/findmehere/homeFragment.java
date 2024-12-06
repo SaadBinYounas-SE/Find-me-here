@@ -1,6 +1,7 @@
 package com.example.findmehere;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ public class homeFragment extends Fragment {
     MyAdapterPosts myAdapter;
     RecyclerView rvPosts;
     SearchView search_view;
+    View btnLogout;
 
 
     @Override
@@ -52,6 +55,7 @@ public class homeFragment extends Fragment {
             }
         });
 
+        btnLogout.setOnClickListener(v -> showLogoutDialog()); // Set the Logout action
 
         return rootView;
     }
@@ -59,6 +63,7 @@ public class homeFragment extends Fragment {
     {
         rvPosts = rootView.findViewById(R.id.rvPosts);
         search_view=rootView.findViewById(R.id.search_view);
+        btnLogout = rootView.findViewById(R.id.btnLogout);
 
         rvPosts.setHasFixedSize(true);
 
@@ -137,6 +142,25 @@ public class homeFragment extends Fragment {
                 // Handle errors
             }
         });
+    }
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> logout())
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void logout() {
+        // Firebase logout
+        FirebaseAuth.getInstance().signOut();
+
+        // Navigate to Login activity
+        Intent intent = new Intent(getActivity(), loginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish();
     }
 
 }

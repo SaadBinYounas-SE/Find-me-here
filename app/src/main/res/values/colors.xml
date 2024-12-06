@@ -8,6 +8,7 @@
 <!--    <color name="purple">#8a19d6</color>-->
     <color name="purple">#DA6A8A</color>
     <color name="peach">#FF7F50</color>
+    <color name="bg">#AAD1E3</color>
     <color name="alpha_20peach">#33FF7F50</color>
     <color name="alpha_20purple">#3303314B</color>
     <color name="alpha_peach">#80FF7F50</color>

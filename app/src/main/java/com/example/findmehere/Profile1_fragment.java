@@ -118,8 +118,7 @@ public class Profile1_fragment extends Fragment {
         tvFound=viewRoot.findViewById(R.id.tvFound);
         tvLost=viewRoot.findViewById(R.id.tvLost);
         tvUsernameProfile=viewRoot.findViewById(R.id.tvUsernameProfile);
-        vpViewPosts=viewRoot.findViewById(R.id.vpViewPosts);
-        tlPosts=viewRoot.findViewById(R.id.tlPosts);
+
 
         tlPosts.setupWithViewPager(vpViewPosts);
 
