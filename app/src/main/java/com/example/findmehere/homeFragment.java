@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -97,14 +98,25 @@ public class homeFragment extends Fragment {
     }
     private void filterPosts(String query) {
         ArrayList<modelPosts> filteredList = new ArrayList<>();
+        String lowerCaseQuery = query.toLowerCase(); // Convert query to lowercase for case-insensitive search
+
         for (modelPosts post : Posts) {
-            // Check if the post's username or item name contains the search query
-            if (post.getItemName().toLowerCase().contains(query.toLowerCase())) {
+            // Check if the query matches any of the relevant fields
+            if (post.getItemName().toLowerCase().contains(lowerCaseQuery) ||
+                    post.getStatus().toLowerCase().contains(lowerCaseQuery) ||
+                    post.getDescription().toLowerCase().contains(lowerCaseQuery) ||
+                    post.getLocation().toLowerCase().contains(lowerCaseQuery) ||
+                    post.getPostedBy().toLowerCase().contains(lowerCaseQuery)) {
                 filteredList.add(post);
             }
         }
         // Update the RecyclerView adapter with the filtered list
         myAdapter.setFilteredPosts(filteredList);
+
+        // Display a message if no posts match the search query
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getContext(), "No results found!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //jab home load hua to porana post aa gyi

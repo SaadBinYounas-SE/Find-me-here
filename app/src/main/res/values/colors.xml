@@ -16,6 +16,6 @@
     <color name="gold">#CCAE10</color>
     <color name="green">#008000</color>
     <color name="unselected_tab_color">#FFFFFFFF</color>
-    <color name="selected_tab_color">#FF7F50</color> <!-- Define the color for selected tab -->
+    <color name="selected_tab_color">#0AA1E5</color> <!-- Define the color for selected tab -->
 
 </resources>
