@@ -3,8 +3,11 @@ package com.example.findmehere;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -173,40 +175,37 @@ public class chatBoxActivity extends AppCompatActivity {
 
     }
 
-    void getRecieverData()
-    {
-        DatabaseReference userRef;
-
-        userRef = FirebaseDatabase.getInstance().getReference().child("User").child(recieverId);
+    void getRecieverData() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("User").child(recieverId);
 
         if (recieverId != null) {
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        // User data exists, retrieve the data
+                        // Retrieve data
                         recieverName = snapshot.child("fullName").getValue(String.class);
                         recieverPhone = snapshot.child("phone").getValue(String.class);
                         recieverEmail = snapshot.child("email").getValue(String.class);
                         recieverProfile = snapshot.child("profilePic").getValue(String.class);
 
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        // Display the reciever's name
+                        tvRecieverName.setText(recieverName);
 
-                        if (currentUser != null) {
-                            String thisUser = currentUser.getUid();
-                            if(!thisUser.equals(recieverId))
-                            {
-                                tvRecieverName.setText(recieverName);
-
-                                Glide.with(getApplicationContext())
-                                        .load(recieverProfile)
-                                        .placeholder(R.drawable.placeholder_image)
-                                        .into(ivRecieverProfile);
+                        if (recieverProfile != null && !recieverProfile.isEmpty()) {
+                            // Decode the Base64 string to Bitmap
+                            try {
+                                byte[] bytes = Base64.decode(recieverProfile, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                ivRecieverProfile.setImageBitmap(bitmap);
+                            } catch (IllegalArgumentException e) {
+                                // Handle exception for invalid Base64 strings
+                                ivRecieverProfile.setImageResource(R.drawable.placeholder_image);
                             }
-
+                        } else {
+                            // Placeholder if profile picture is not available
+                            ivRecieverProfile.setImageResource(R.drawable.placeholder_image);
                         }
-
                     } else {
                         Toast.makeText(getParent(), "User data not found", Toast.LENGTH_SHORT).show();
                     }
@@ -217,9 +216,9 @@ public class chatBoxActivity extends AppCompatActivity {
                     // Handle errors
                 }
             });
-
         }
     }
+
     void getSenderData()
     {
         DatabaseReference currentUser;

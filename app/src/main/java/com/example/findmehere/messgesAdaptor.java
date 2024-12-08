@@ -1,6 +1,8 @@
 package com.example.findmehere;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,30 +44,47 @@ public class messgesAdaptor extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        msgModel msg = msgAdaptorArray.get(position);
 
-        msgModel msg=msgAdaptorArray.get(position);
         if (holder.getClass() == senderViewHolder.class) {
             senderViewHolder viewHolder = (senderViewHolder) holder;
             viewHolder.tvSenderMsg.setText(msg.getMessege());
 
-            Glide.with(context.getApplicationContext())
-                    .load(msg.getProfile())
-                    .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-                    .into(viewHolder.ivSenderImg);
+            // Load profile picture using Base64 decoding
+            String base64Image = msg.getProfile();
+            if (base64Image != null && !base64Image.isEmpty()) {
+                try {
+                    byte[] bytes = android.util.Base64.decode(base64Image, android.util.Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    viewHolder.ivSenderImg.setImageBitmap(bitmap);
+                } catch (IllegalArgumentException e) {
+                    // Handle exception for invalid Base64 strings
+                    viewHolder.ivSenderImg.setImageResource(R.drawable.placeholder_image);
+                }
+            } else {
+                viewHolder.ivSenderImg.setImageResource(R.drawable.placeholder_image); // Default placeholder if no profile image
+            }
+
         } else {
             recieverViewHolder viewHolder = (recieverViewHolder) holder;
             viewHolder.tvRecieverMsg.setText(msg.getMessege());
 
-            Glide.with(context.getApplicationContext())
-                    .load(msg.getProfile())
-                    .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-                    .into(viewHolder.ivRecieverImg);
-
-
+            // Load profile picture using Base64 decoding
+            String base64Image = msg.getProfile();
+            if (base64Image != null && !base64Image.isEmpty()) {
+                try {
+                    byte[] bytes = android.util.Base64.decode(base64Image, android.util.Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    viewHolder.ivRecieverImg.setImageBitmap(bitmap);
+                } catch (IllegalArgumentException e) {
+                    // Handle exception for invalid Base64 strings
+                    viewHolder.ivRecieverImg.setImageResource(R.drawable.placeholder_image);
+                }
+            } else {
+                viewHolder.ivRecieverImg.setImageResource(R.drawable.placeholder_image); // Default placeholder if no profile image
+            }
         }
-
     }
-
     @Override
     public int getItemCount() {
         return msgAdaptorArray.size();
