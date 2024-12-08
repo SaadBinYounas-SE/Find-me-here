@@ -1,11 +1,17 @@
 package com.example.findmehere;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +30,7 @@ public class loginActivity extends AppCompatActivity {
     Button btnSignup,btnLogin;
     TextInputEditText etEmailLogin, etPasswordLogin;
     FirebaseAuth firebaseAuth;
+    TextView forget;
     ProgressBar progressBarLogin;
 
     @Override
@@ -57,6 +64,53 @@ public class loginActivity extends AppCompatActivity {
                 checkLogin();
             }
         });
+
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText etEmail = new EditText(view.getContext());
+                AlertDialog.Builder forgetPasswordDialog = new AlertDialog.Builder(view.getContext())
+                        .setTitle("Forget Password Email...")
+                        .setView(etEmail)
+                        .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String email = etEmail.getText().toString().trim();
+                                if(TextUtils.isEmpty(email))
+                                {
+                                    etEmail.setError("Give valid email address");
+                                }
+                                else
+                                {
+                                    ProgressDialog progressDialog = new ProgressDialog(loginActivity.this);
+                                    progressDialog.show();
+                                    firebaseAuth.sendPasswordResetEmail(email)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(loginActivity.this, "check your inbox...", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(loginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    progressDialog.dismiss();
+                                                }
+                                            });
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                forgetPasswordDialog.show();
+            }
+        });
     }
     protected void init()
     {
@@ -65,7 +119,7 @@ public class loginActivity extends AppCompatActivity {
 
         etEmailLogin=findViewById(R.id.etEmailLogin);
         etPasswordLogin=findViewById(R.id.etPasswordLogin);
-
+        forget=findViewById(R.id.forgotlogin);
         progressBarLogin=findViewById(R.id.progressBarLogin);
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -106,5 +160,7 @@ public class loginActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 }
